@@ -1,0 +1,37 @@
+html,body {
+  margin: 0;
+}
+#app{
+  padding: 40px;
+}
+.app-box{
+  width: 300px;
+}
+.app-textarea{
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  height: 100px;
+  resize: none;
+  &:active{
+    outline: none;
+  }
+}
+.app-button {
+  background: #fff;
+  padding: 10px;
+  outline: none;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  &:hover{
+    background: #efefef;
+    cursor: pointer;
+  }
+  &:active{
+    background: #fff;
+  }
+  +.app-button{
+    margin-left: 12px;
+  }
+}
