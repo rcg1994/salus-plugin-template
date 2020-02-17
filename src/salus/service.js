@@ -1,7 +1,7 @@
 import { fetchCreate } from './libs/fetch'
 
 let urlMap = {
-  'development': 'https://demo.isalus.cn/his',
+  'development': 'https://dev.isalus.cn/his',
   'production': 'https://link.isalus.cn/his',
   'demo': 'https://demo.isalus.cn/his'
 };

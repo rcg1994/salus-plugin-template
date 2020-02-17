@@ -5,7 +5,7 @@
 </template> 
 
 <script>
-import { fetchChargeInvoUpdate, fetchChargeHistoryDetail } from '../services/chargeService.js'
+// import { fetchChargeInvoUpdate } from '../services'
 import './index.scss'
 
 export default {
