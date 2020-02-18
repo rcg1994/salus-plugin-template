@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import _ from 'lodash';
 import printJS from 'print-js';
 import service from './service'
 import helper from './libs/helper'
@@ -6,6 +7,7 @@ import Func from './libs/func'
 import { Message, MessageBox, Notification } from 'element-ui'
  
 const Salus = {
+  _,
   service,
   message: Message,
   alert: MessageBox.alert,
