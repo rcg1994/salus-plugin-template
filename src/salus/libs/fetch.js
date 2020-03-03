@@ -18,8 +18,9 @@ const showErrMessage = (msg) => {
 export function request (api, options = {}) {
   const method = options.method ? options.method.toLowerCase() : 'get';
   const formData = options.formData !== undefined ? options.formData : false;
+  const isIdOnly = options.isIdOnly !== undefined ? options.isIdOnly : false;
   options.data = options.data || {};
-  if (method === 'get') {
+  if (method === 'get' && !isIdOnly) {
     const searchParams = makeURLSearchParams(options.data);
     api += '?' + searchParams;
   }
@@ -43,6 +44,7 @@ export function request (api, options = {}) {
     options.headers ? options.headers : {}
   );
   const isFile = options.isFile || false;
+  if (isIdOnly && options.data.id) api += `/${options.data.id}`;
   if (isFile) {
     return fetch(api, {
       method,
@@ -112,6 +114,7 @@ export function fetchCreate (
     method = 'get',
     formData = false,
     isFile = false,
+    isIdOnly = false,
     extData = {},
     headers = {},
     onError = null,
@@ -124,7 +127,8 @@ export function fetchCreate (
       data: formData ? data : Object.assign(data, extData),
       headers,
       formData,
-      isFile
+      isFile,
+      isIdOnly
     })
       .then(d => {
         if (onSuccess) {
