@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "start": "vue-cli-service serve",
+    "start:demo": "cross-env NODE_ENV=demo vue-cli-service serve",
     "build:page": "vue-cli-service build",
     "build": "vue-cli-service build --target lib --name SalusCom src/build.js",
     "lint": "vue-cli-service lint"
@@ -24,6 +25,7 @@
     "@vue/cli-service": "^4.0.0",
     "babel-eslint": "^10.0.3",
     "babel-plugin-component": "^1.1.1",
+    "cross-env": "^7.0.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.13.0",
