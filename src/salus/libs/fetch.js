@@ -1,15 +1,9 @@
-/* eslint-disable no-throw-literal */
+import Vue from 'vue';
 import URLSearchParams from 'url-search-params';
-import {
-  dateFormater,
-  getToken,
-  getParamByKey,
-  getDeviceCode,
-  setDeviceCode,
-} from './util';
+import { getToken, setDeviceCode } from '../libs/util';
 
-const showErrMessage = (msg) => {
-  window.salus.notify.error({
+const showErrMessage = msg => {
+  Vue.prototype.$notify.error({
     title: '异常错误',
     message: msg
   });
@@ -19,36 +13,44 @@ export function request (api, options = {}) {
   const method = options.method ? options.method.toLowerCase() : 'get';
   const formData = options.formData !== undefined ? options.formData : false;
   const isIdOnly = options.isIdOnly !== undefined ? options.isIdOnly : false;
+  const isDataInside =
+    options.isDataInside !== undefined ? options.isDataInside : false;
+  const customToken = options.customToken || '';
+  /* 开启集团登录 */
+  // const useHosGroup = options.useHosGroup !== undefined ? options.useHosGroup : false;
   options.data = options.data || {};
   if (method === 'get' && !isIdOnly) {
     const searchParams = makeURLSearchParams(options.data);
     api += '?' + searchParams;
   }
-  const deviceCode = getDeviceCode();
+  const token = getToken() || '';
+  /* 开启集团登录 */
+  // const currentHosKey = localStorage.getItem('__HOSPITAL__');
+  /* 开启集团登录 */
+  // const hospital = useHosGroup ? groupHosKey : (
+  //   currentHosKey || groupHosKey || 'VHUJ0Hld3SpyK5TFzpPGYw=='
+  // );
+  // console.log(api, hospital);
   const headers = Object.assign(
     {
-      'device-code': deviceCode,
-      'device-type': 6,
-      hospital: getParamByKey('hospital') || 'VHUJ0Hld3SpyK5TFzpPGYw==',
-      'trade-time': dateFormater(new Date().getTime(), 'yyyy-MM-dd hh:mm:ss'),
-      token: getToken() || ''
+      Authorization: customToken || token
     },
     formData
-      ? {
-        Accept: 'application/json'
-      }
+      ? {}
       : {
         Accept: 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'
       },
+    // needToken ? { authorization: 'Barear ' + accessToken } : {},
     options.headers ? options.headers : {}
   );
   const isFile = options.isFile || false;
   if (isIdOnly && options.data.id) api += `/${options.data.id}`;
+  const data = isDataInside ? options.data.data : options.data;
   if (isFile) {
     return fetch(api, {
       method,
-      body: method === 'post' ? JSON.stringify(options.data) : undefined,
+      body: method === 'post' ? JSON.stringify(data) : undefined,
       headers
     }).then(res => {
       if (res.status >= 200 && res.status < 300) {
@@ -62,6 +64,7 @@ export function request (api, options = {}) {
         error.res = res;
         let errCode = res.status === 401 ? 2 : '';
         errCode = res.status === 401 && options.isRefreshToken ? 777 : errCode;
+        // eslint-disable-next-line no-throw-literal
         throw {
           msg: res.status + (res.statusText || ''),
           res: res,
@@ -73,52 +76,70 @@ export function request (api, options = {}) {
   return fetch(api, {
     method,
     body:
-      method === 'post'
-        ? formData
-          ? options.data
-          : JSON.stringify(options.data)
-        : undefined,
+      method === 'post' ? (formData ? data : JSON.stringify(data)) : undefined,
     headers
-  }).then(res => {
-    if (res.status >= 200 && res.status < 300) {
-      const status = Number(res.headers.get('business-status'));
-      const message = res.headers.get('message');
-      if (status === 200) {
-        // 成功
+  })
+    .then(res => {
+      if (res.status >= 200 && res.status < 300) {
         return res;
       } else {
-        // 失败
+        // eslint-disable-next-line no-throw-literal
         throw {
           code: status,
-          msg: decodeURIComponent(message)
+          msg: '系统异常'
         };
       }
-    } else {
-      throw {
-        code: status,
-        msg: '系统异常'
-      };
-    }
-  }).then(res => res.json()).catch(err => {
-    if (err.msg) {
-      throw err;
-    } else {
-      return {success: true};
-    }
-  });
+    })
+    .then(res => res.json())
+    .then(res => {
+      if (res.code && Number(res.code) !== 0) {
+        // eslint-disable-next-line no-throw-literal
+        throw {
+          code: res.code,
+          msg: res.message
+        };
+      }
+      if (res.data) {
+        if (Number(res.code) !== 0) {
+          // eslint-disable-next-line no-throw-literal
+          throw {
+            code: res.code,
+            msg: res.message
+          };
+        } else {
+          return res.data;
+        }
+      } else {
+        return res;
+      }
+    })
+    .catch(err => {
+      console.error('errr', options, err);
+      if (err.msg) {
+        // 接口错误都会有msg的
+        throw err;
+      } else {
+        return { success: true };
+      }
+    });
 }
 
 export function fetchCreate (
   api,
   {
     method = 'get',
+    requireSign = false,
     formData = false,
+    useHosGroup = false,
     isFile = false,
     isIdOnly = false,
+    isDataInside = false,
+    customToken = '',
     extData = {},
     headers = {},
     onError = null,
-    onSuccess = null
+    onSuccess = null,
+    preprocess = true
   }
 ) {
   return async (data = {}) => {
@@ -126,9 +147,14 @@ export function fetchCreate (
       method,
       data: formData ? data : Object.assign(data, extData),
       headers,
+      requireSign,
+      useHosGroup,
       formData,
       isFile,
-      isIdOnly
+      isIdOnly,
+      isDataInside,
+      customToken,
+      preprocess
     })
       .then(d => {
         if (onSuccess) {
