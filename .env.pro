@@ -1,0 +1,4 @@
+NODE_ENV = 'production'
+VUE_APP_API = 'https://link.isalus.cn/his'
+VUE_APP_AES_KEY = 'hVPw509mMtaqdhoyx8hK7FPt6iLf69Re'
+VUE_APP_LOGIN_TOKEN = 'Basic c2xfZGN0X2hpc193ZWI6Mmx0dGpibXpqczh0OTZodGk1cjJoaWhkc29neGVncDI='

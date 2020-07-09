@@ -1,0 +1,27 @@
+$--color-primary:#099CD3 !default;
+$--color-blue:#50B7FB !default;
+$--color-success: #03D6C8 !default;
+$--color-danger: #ff7477 !default;
+$--color-warning: #FEB74D !default;
+$--color-info: #909399 !default;
+$--color-text-default:#50B7FB !default;
+$--color-text-success: #03D6C8 !default;
+$--color-text-danger: #ff7477 !default;
+$--color-text-primary: #354155 !default;
+$--color-text-secondary: #8F9BAF !default;
+$--font-size-base: 14px !default;
+$--font-size-small: 12px !default;
+$--font-size-large: 16px !default;
+$--border-width-base: 1px !default;
+$--border-color-base: #dddddd !default;
+$--border-color-light: #e4e7ed !default;
+$--border-color-lighter: #DDDDDD !default;
+$--table-border-color: $--border-color-lighter !default;
+$--table-border: 1px solid $--table-border-color !default;
+$--select-dropdown-border: solid 1px $--border-color-light !default;
+$--color-text-placeholder: #999 !default;
+$--box-shadow-base: 0 2px 4px rgba(0, 0, 0, .12),
+0 0 6px rgba(0, 0, 0, .04) !default;
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";

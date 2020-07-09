@@ -1,0 +1,40 @@
+{
+  "1": {
+    "/dictionary": [
+      {
+        "key": "dictionary-rule1",
+        "name": "显示导出按钮",
+        "type": "normal"
+      },
+      {
+        "key": "dictionary-rule2",
+        "name": "导出成功提示文字",
+        "type": "string"
+      },
+      {
+        "key": "dictionary-rule3",
+        "name": "可导出文件（单选）",
+        "type": "select",
+        "options": [
+          {"key": "1", "label": "文件1"},
+          {"key": "2", "label": "文件2"},
+          {"key": "3", "label": "文件3"}
+        ]
+      }
+    ],
+    "/bed": [
+      {
+        "key": "bed-rule4",
+        "name": "规则4",
+        "type": "table",
+        "options": [
+          {"field": "code", "title": "处方号"},
+          {"field": "recipeName", "title": "处方名"},
+          {"field": "useage", "title": "用法"},
+          {"field": "yl", "title": "用量"},
+          {"field": "price", "title": "价格"}
+        ]
+      }
+    ]
+  }
+}

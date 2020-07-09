@@ -1,0 +1,123 @@
+.g-form {
+  .el-input, .el-textarea{
+    &:hover{
+      .el-input__inner, .el-textarea__inner {
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      }
+    }
+    .el-input__inner:focus, .el-textarea__inner:focus{
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+    }
+    .el-input__inner, .el-textarea__inner {
+      border-radius: 4px;
+      border: 1px solid rgba(221, 221, 221, 1);
+    }
+    &.is-disabled .el-input__inner {
+      &:hover{
+        box-shadow: none;
+      }
+      border: 0;
+      background: #e5e5e5;
+      color: #333;
+    }
+  }
+  .el-checkbox__input.is-disabled .el-checkbox__inner{
+    background: #e5e5e5;
+    color: #333;
+    &:hover{
+      box-shadow: none;
+    }
+    border: 0;
+  }
+  .el-select, .el-cascader, .el-date-editor{
+    &:hover{
+      .el-input__inner {
+        box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      }
+    }
+    .el-input__inner {
+      background: #f7f7f7;
+      border: 0;
+      border-radius: 4px;
+    }
+  } 
+  .is-error{
+    .el-input, .el-textarea, .el-select, .el-cascader, .el-date-editor{
+      .el-input__inner, .el-textarea__inner {
+        border-color: transparent;
+        box-shadow: 0 0 2px rgba(255,0,0,1);
+      }
+    }
+  }
+  .el-tag.el-tag--info{
+    background-color: #fff;
+    border-color: #e9e9eb;
+    color: #909399;
+  }
+  .el-select .el-tag__close.el-icon-close{
+    background-color: #e9e9eb;
+    color: #909399;
+    &:hover{
+      background-color: #909399;
+      color: #fff;
+    }
+  }
+  .el-form-item{
+    p{
+      margin: 10px 0 0;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+  }
+  .el-input__inner{
+    height: 30px;
+    line-height: 30px;
+  }
+}
+.drawer-form {
+  .flex-row {
+    display: flex;
+    .el-form-item {
+      flex: 1;
+      display: flex;
+      &:last-child{
+        margin-right: 0;
+      }
+      .el-form-item__content {
+        flex: 1;
+        .el-select {
+          width: 100%;
+        }
+        .el-date-editor {
+          width: 100%;
+        }
+        .el-cascader {
+          width: 100%;
+        }
+      }
+      .el-input-number{
+        line-height: 30px;
+      }
+    }
+    &.is-last{
+      .el-form-item{
+        margin-bottom: 0;
+      }
+    }
+  }
+  .only-info{
+    .flex-row{
+      .el-form-item{
+        margin-bottom: 5px;
+      }
+    }
+    .g-toggle{
+      ._btn{
+        margin-top: 15px;
+      }
+    }
+  }
+  .input-suffix{
+    margin-right: 4px;
+  }
+}

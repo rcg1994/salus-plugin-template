@@ -1,60 +1,35 @@
 <template>
   <div id="app">
-    <h1>Your Plugin</h1>
-    <Plugin :info="info"></Plugin>
-    <h1>Token Manage</h1>
-    <div class="app-box">
-      <textarea v-model="token" class="app-textarea" />
-      <div>
-        <button class="app-button" @click="setToken">设置 Token</button>
-        <button class="app-button" @click="clearToken">清除 Token</button>
-      </div>
+    <div id="I_AM_LOADIN" v-if="loading">
+      <i class="el-icon-loading"></i>
     </div>
-    <h1>Salus SDK</h1>
-    <button class="app-button" @click="()=>clickHandle('message', 'success')">成功提示</button>
-    <button class="app-button" @click="()=>clickHandle('message', 'error')">错误提示</button>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Plugin from './plugin'
-import { setToken, dateFormater, getToken } from './salus/libs/util'
+import Helper from "./libs/helper";
 export default {
-  name: 'app',
-  components: {
-    Plugin
-  },
-  data(){
+  data() {
     return {
-      token: '',
-      info: {}
-    }
+      loading: false,
+    };
   },
-  mounted(){
-    this.token = getToken() 
+  mounted() {
+    Helper.eventManage.on("app/loading", this.startLoading);
+    Helper.eventManage.on("app/stopLoading", this.stopLoading);
+  },
+  beforeDestroy() {
+    Helper.eventManage.off("app/loading", this.startLoading);
+    Helper.eventManage.off("app/stopLoading", this.stopLoading);
   },
   methods: {
-    setToken(){
-      setToken(this.token, dateFormater(new Date().getTime(), 'yyyy-MM-dd hh:mm:ss'))
-      this.$salus.message.success('Token 设置成功')
+    startLoading() {
+      this.loading = true;
     },
-    clearToken(){
-      this.token=''
-      setToken('')
+    stopLoading() {
+      this.loading = false;
     },
-    clickHandle (type, subFunc){
-      switch(type){
-        case 'message':
-          this.$salus.message[subFunc]("信息提示")
-          break
-        default:
-          break
-      }
-    }
-  }
-}
+  },
+};
 </script>
-
-<style>
-
-</style>

@@ -1,0 +1,36 @@
+.salus-theme-big{
+  .el-drawer__wrapper{
+    .el-drawer_custom-header{
+      ._title{
+        font-size: 16px;
+      }
+      ._tool .el-button{
+        font-size: 16px;
+      }
+    } 
+  }
+  .el-form{
+    .el-form-item{
+      &__label{
+        font-size: 14px;
+      }
+      &__content{
+        font-size: 16px;
+      }
+    }
+  } 
+  .el-input__inner{
+    font-size: 16px;
+  }
+  .el-select-dropdown__item{
+    font-size: 16px;
+  }
+  .g-title_content{
+    font-size: 16px;
+  }
+  .g-toggle ._btn{
+    height: 34px;
+    line-height: 34px;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,268 @@
+.layout-main-wrap{
+  // flex: 1;
+  height: calc(100% - 50px);
+}
+
+.layout-aside{
+  border-right: 0;
+  text-align: center;
+}
+
+.tool-box{
+  >div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: -8px;
+    margin-right: -8px;
+    &:last-child{
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+    &+div{
+      margin-left: 8px;
+    }
+    &.align-right{
+      justify-content: flex-end;
+    }
+    >span{
+      line-height: 32px;
+      color: #333;
+    }
+    > * {
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+    .el-button + .el-button{
+      margin-left: 0;
+    }
+    .el-input{
+      width: 180px;
+      .el-input__inner{
+        width: 100%;
+      }
+    }
+    .el-select{
+      .el-input{
+        margin-right: 0;
+        width: 160px;
+      }
+      .el-input__inner{
+        width: 100%;
+      }
+    }
+    .el-date-editor{
+      &.el-input{
+        width: 160px;
+      }
+    }
+    .el-checkbox{
+      height: 32px;
+      // margin-right: 32px;
+      .el-checkbox__label{
+        height: 32px;
+        line-height: 32px;
+      }
+      .el-checkbox__input, .el-checkbox__inner{
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+}
+
+.page{
+  background: #fff;
+  padding: 0;
+  height: 100%;
+  &.is-sub-page{
+    background: transparent
+  }
+  .page-content{
+    position: relative;
+    height: 100%;
+    padding: 15px;
+    &.is-layout-main{
+      display: flex;
+      flex-direction: column;
+      .tool-box{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        &.with-edit-table{
+          padding-right: 48px
+        }
+        &.is-only-two{
+          .tool-box_info{
+            flex: none;
+            margin-right: -20px;
+          }
+        }
+        >div{
+          &.tool-box_info{
+            flex: 1;
+            justify-content: space-between;
+            >div{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              color: #333;
+              &:first-child{
+                padding-left: 20px;
+              }
+              &:last-child{
+                padding-right: 20px;
+                margin-left: 20px;
+              }
+              >span+span{
+                margin-left: 20px;
+              }
+            }
+          }
+        }
+        .tool-box_user-info{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          color: #333;
+          >span{
+            margin-right: 20px;
+          }
+        }
+        &.short{
+          >div{
+            .el-select{
+              .el-input{
+                width: 150px;
+              }
+            }
+            .el-date-editor.el-input{
+              width: 150px;
+            }
+          }
+        }
+      }
+      .content{
+        flex: 1;
+        .content-info{
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          &.with-edit-table{
+            padding-right: 48px
+          }
+        }
+        &.is-flex{
+          display: flex;
+          flex-direction: column;
+          .flex-1{
+            flex: 1;
+            min-height: 0;
+          }
+        }
+        &._flex, .flex-1{
+          .content{
+            min-height: 0;
+          }
+          .v-table{
+            height: 100%;
+          }
+        }
+      }
+    }
+    .ps__rail-x{
+      z-index: 2;
+      opacity: 0.6;
+      height: 5px;
+    }
+    .ps__rail-y{
+      z-index: 2;
+      opacity: 0.6;
+      width: 5px;
+    }
+  }
+  &.is-menu{
+    display: flex;
+    flex-direction: column;
+    .g-content-box{
+      flex: 1;
+      min-height: 0;
+      .content{
+        height: 100%;
+      }
+    }
+  }
+}
+
+.del-btn{
+  color: red;
+  margin-right: 10px;
+  &:hover{
+    color: rgb(255, 57, 57);
+  }
+  &:focus{
+    color: red;
+  }
+}
+.el-drawer-old{
+  .wrap-right{
+    .el-button{
+      height: 40px;
+      line-height: 40px;
+      span{
+        font-size: 16px;
+        padding: 0 12px;
+      }
+    }
+  }
+}
+.el-drawer-old-content{
+  position: relative;
+  .ps__rail-x{
+    z-index: 2;
+    opacity: 0.6;
+    height: 5px;
+  }
+  .ps__rail-y{
+    z-index: 2;
+    opacity: 0.6;
+    width: 5px;
+  }
+  .is-flex-column{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .flex-1{
+      flex: 1;
+    }
+  }
+}
+
+.g-patient-info{
+  color: #999;
+  line-height: 32px;
+  font-size: 14px;
+  >span{
+    margin-right: 20px;
+    display: inline-block;
+    &:last-child{
+      margin-right: 0;
+    }
+    b{
+      color: #666;
+      font-weight: bold;
+    }
+  }
+}
+
+.g-info{
+  margin-right: 20px!important;;
+  color: #999!important;
+  b{
+    color: #666!important;
+    font-size: 16px!important;
+  }
+}

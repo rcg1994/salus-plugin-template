@@ -1,60 +1,77 @@
 {
-  "name": "salus-plugin-template",
+  "name": "gaea-admin",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start": "vue-cli-service serve",
-    "start:demo": "cross-env NODE_ENV=demo vue-cli-service serve",
-    "build:page": "vue-cli-service build",
-    "build": "vue-cli-service build --target lib --name SalusCom src/build.js",
+    "start": "vue-cli-service serve --mode dev",
+    "start:dev": "vue-cli-service serve --mode dev",
+    "start:demo": "vue-cli-service serve --mode dev",
+    "start:pre": "vue-cli-service serve --mode pre",
+    "start:pro": "vue-cli-service serve --mode pro",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@rcg1994/gaea": "^0.0.1",
+    "ali-oss": "^6.9.1",
+    "bignumber.js": "^9.0.0",
     "core-js": "^3.3.2",
-    "element-china-area-data": "^4.1.2",
+    "crypto-js": "^4.0.0",
     "element-ui": "^2.12.0",
+    "fecha": "^3.0.3",
+    "image-file-size": "^1.0.1",
+    "js-cookie": "^2.2.1",
+    "koa-router": "^7.4.0",
     "lodash": "^4.17.15",
-    "print-js": "^1.0.61",
+    "perfect-scrollbar": "^1.4.0",
     "url-search-params": "^1.1.0",
-    "vue": "^2.6.10"
+    "v-viewer": "^1.5.1",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.0.2",
+    "vue-property-decorator": "^8.3.0",
+    "vue-router": "^3.1.3",
+    "vue-router-tab": "^0.2.7",
+    "vuedraggable": "^2.23.2",
+    "vuex": "^3.5.1",
+    "vxe-table": "^2.9.0",
+    "vxe-table-plugin-element": "^1.8.6",
+    "xe-utils": "^2.4.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@types/lodash": "^4.14.149",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "babel-plugin-component": "^1.1.1",
+    "@vue/eslint-config-prettier": "^5.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "cheerio": "^1.0.0-rc.3",
     "cross-env": "^7.0.2",
+    "css-loader": "^3.2.0",
+    "dot": "^1.1.2",
     "eslint": "^5.16.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.13.0",
+    "html-webpack-plugin": "^3.2.0",
+    "json-string-formatter": "^1.0.1",
+    "koa": "^2.11.0",
+    "koa-webpack": "^5.2.4",
+    "merge-anything": "^2.4.4",
+    "prettier": "^1.19.1",
+    "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
-    "vue-template-compiler": "^2.6.10"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {
-      "no-console": 0
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.2.0",
+    "vue-loader": "^15.7.2",
+    "vue-template-compiler": "^2.6.10",
+    "vuex-class": "^0.3.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-hot-middleware": "^2.25.0"
+  }
 }
