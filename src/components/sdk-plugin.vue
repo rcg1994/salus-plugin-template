@@ -1,7 +1,7 @@
 <template>
   <div>
     <user-select-drawer
-      :show.sync="visible.visibleUserSelectDrawer"
+      :visible.sync="visible.visibleUserSelectDrawer"
       :type="comData.userSelectDrawer.type"
       @select="onEmit"
     ></user-select-drawer>

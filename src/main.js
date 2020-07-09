@@ -17,6 +17,7 @@ import "./libs/filter";
 import globalMixin from "./mixin/global.mixin";
 import "viewerjs/dist/viewer.css";
 import Viewer from "v-viewer";
+import Salus from "./salus";
 import "./styles";
 
 Vue.config.productionTip = false;
@@ -32,9 +33,17 @@ Vue.use(Viewer, {
   },
 });
 
+Vue.use(Salus);
 Vue.prototype._ = _;
 
 Vue.mixin(globalMixin);
+Vue.prototype.$next = function(func) {
+  setTimeout(() => {
+    this.$nextTick(() => {
+      func && func();
+    });
+  }, 0);
+};
 
 new Vue({
   router,

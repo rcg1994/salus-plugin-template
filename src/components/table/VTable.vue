@@ -1,5 +1,5 @@
 <template>
-  <div class="v-table" :class="{'with-group': withGroup}">
+  <div class="v-table" :class="{ 'with-group': withGroup }">
     <div
       ref="header"
       v-show="isShowFix"
@@ -9,8 +9,8 @@
       <div
         class="v-table_fixed-header_padding"
         :style="{
-        height: `${fixPadding}px`,
-      }"
+          height: `${fixPadding}px`,
+        }"
       ></div>
       <vxe-grid
         ref="fixTable"
@@ -32,72 +32,72 @@
     <div ref="footer" class="v-table_footer" v-show="hasMore" @click="getMore">
       <i v-if="!inloading" class="iconfont icon-more"></i>
       <i v-else class="el-icon-loading"></i>
-      <span>{{inloading ? '正在加载' : "加载更多"}}</span>
+      <span>{{ inloading ? "正在加载" : "加载更多" }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import PerfectScrollbar from 'perfect-scrollbar';
-import Helper from '../../libs/helper';
+import PerfectScrollbar from "perfect-scrollbar";
+import Helper from "../../libs/helper";
 const EDIT_DEFAULT_TEXT = {
-  ElInput: '点击输入',
-  ElInputNumber: '点击输入',
-  ElSelect: '点击选择',
-  ElCascader: '点击选择'
+  ElInput: "点击输入",
+  ElInputNumber: "点击输入",
+  ElSelect: "点击选择",
+  ElCascader: "点击选择",
 };
 export default {
-  name: 'VTable',
+  name: "VTable",
   props: {
     loadMethod: {
       type: Function,
-      default: () => {}
+      default: () => {},
     },
     fixLeft: {
       type: Number,
-      default: 0
+      default: 0,
     },
     fixRight: {
       type: Number,
-      default: 0
+      default: 0,
     },
     fixTop: {
       type: Number,
-      default: 0
+      default: 0,
     },
     fixPadding: {
       type: Number,
-      default: 0
+      default: 0,
     },
     renderExpand: {
       type: Function,
       default: () => {
         return [<span>12</span>];
-      }
+      },
     },
     hideToolColumn: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  data () {
+  data() {
     return {
       defaultProps: {
-        'auto-resize': true,
+        "auto-resize": true,
         stripe: true,
-        'keep-source': true,
-        'highlight-hover-row': true,
-        'show-overflow': 'tooltip',
-        'span-method': this._colspanMethod,
-        'row-class-name': this._rowClassName
+        "keep-source": true,
+        "highlight-hover-row": true,
+        "show-overflow": "tooltip",
+        "span-method": this._colspanMethod,
+        "row-class-name": this._rowClassName,
       },
       transformProps: {
-        columns: []
+        columns: [],
       },
       transformEvents: {},
       tempEvents: {},
       defaultEvents: {
-        scroll: this._onTableScroll
+        scroll: this._onTableScroll,
       },
       addTableData: [],
       addTableColumns: [],
@@ -113,33 +113,33 @@ export default {
       tableBody: null,
       btnLoading: {
         add: false,
-        delete: false
-      }
+        delete: false,
+      },
     };
   },
   computed: {
-    isEdit () {
-      return this._checkProp('is-edit') || false;
+    isEdit() {
+      return this._checkProp("is-edit") || false;
     },
-    hideAddRow () {
-      return this._checkProp('hide-add-row') || false;
+    hideAddRow() {
+      return this._checkProp("hide-add-row") || false;
     },
-    isEditFix () {
-      return this._checkProp('is-edit-fix') || false;
+    isEditFix() {
+      return this._checkProp("is-edit-fix") || false;
     },
-    isExpand () {
-      return this._checkProp('is-expand') || false;
+    isExpand() {
+      return this._checkProp("is-expand") || false;
     },
-    isEditBottom () {
-      return this._checkProp('is-edit-bottom') || false;
+    isEditBottom() {
+      return this._checkProp("is-edit-bottom") || false;
     },
-    isShowFix () {
-      return this._checkProp('is-fix-header') && this.showFix;
+    isShowFix() {
+      return this._checkProp("is-fix-header") && this.showFix;
     },
-    withGroup () {
-      return this._checkProp('with-group') || false;
+    withGroup() {
+      return this._checkProp("with-group") || false;
     },
-    binds () {
+    binds() {
       return Object.assign(
         {},
         this.defaultProps,
@@ -147,7 +147,7 @@ export default {
         this.transformProps
       );
     },
-    events () {
+    events() {
       return Object.assign(
         {},
         this.defaultEvents,
@@ -155,7 +155,7 @@ export default {
         this.transformEvents
       );
     },
-    fixStyle () {
+    fixStyle() {
       let re = {
         top: `${this.fixTop}px`,
         width: `${this.fixWidth}px`,
@@ -166,22 +166,22 @@ export default {
         re.left = `${this.fixLeft}px`;
       }
       return re;
-    }
+    },
   },
   watch: {
-    hideToolColumn (v) {
+    hideToolColumn(v) {
       this._transformColumns();
       this._transformAddTableColumns();
-    }
+    },
   },
-  created () {
+  created() {
     this.editIndex = this.$attrs.columns.findIndex(item => !item.type);
   },
-  mounted () {
+  mounted() {
     let wrapper = this.$refs.table.$el.querySelector(
-      '.vxe-table--body-wrapper'
+      ".vxe-table--body-wrapper"
     );
-    this.tableBody = this.$refs.table.$el.querySelector('.vxe-table--body');
+    this.tableBody = this.$refs.table.$el.querySelector(".vxe-table--body");
     wrapper.append(this.$refs.footer);
     // document.body.append(this.$refs.header);
 
@@ -191,41 +191,45 @@ export default {
     this._transformData();
     // this.transformCheckboxChange();
     this._getScrollPerfect();
-    window.addEventListener('resize', this._onResize);
+    window.addEventListener("resize", this._onResize);
     this.update();
   },
-  beforeDestroy () {
-    window.removeEventListener('resize', this._onResize);
+  beforeDestroy() {
+    window.removeEventListener("resize", this._onResize);
   },
   methods: {
-    update () {
+    update() {
       this.$next(() => {
         this._calcColumns(true);
       });
     },
-    reloadColumn () {
+    reloadColumn() {
       this.$next(() => {
         this._transformColumns();
         this._transformAddTableColumns();
         this.update();
       });
     },
-    _getEditRowIndex () {
+    _getEditRowIndex() {
       if (this.hideAddRow) return -111;
       let lastIndex = this.$refs.table
         ? this.$refs.table.getTableData().tableData.length - 1
         : this.$attrs.data.length - 1;
       return this.isEditBottom ? lastIndex : 0;
     },
-    _colspanMethod ({ $rowIndex, $columnIndex, column }) {
-      if (this.isEdit && $rowIndex === this._getEditRowIndex() && !this.hideAddRow) {
+    _colspanMethod({ $rowIndex, $columnIndex, column }) {
+      if (
+        this.isEdit &&
+        $rowIndex === this._getEditRowIndex() &&
+        !this.hideAddRow
+      ) {
         let visibleColumns = this.$refs.table.getTableColumn().visibleColumn;
         if ($columnIndex < this.editIndex) {
           return { rowspan: 1, colspan: 1 };
         } else if ($columnIndex === this.editIndex) {
           return {
             rowspan: 1,
-            colspan: visibleColumns.length - 1 - this.editIndex
+            colspan: visibleColumns.length - 1 - this.editIndex,
           };
         } else if ($columnIndex === visibleColumns.length - 1) {
           return { rowspan: 1, colspan: 1 };
@@ -234,51 +238,58 @@ export default {
         }
       }
     },
-    _checkProp (key) {
+    _checkProp(key) {
       return this.$attrs[key] !== undefined && this.$attrs[key] !== false;
     },
-    _transformData () {
+    _transformData() {
       let { data } = this._.cloneDeep(this.$attrs);
       data = data || [];
       if (this.isEdit && !this.hideAddRow) {
         if (!this.isEditBottom) {
           data.unshift({
-            IS_ADD: true
+            IS_ADD: true,
           });
         } else {
           data.push({
-            IS_ADD: true
+            IS_ADD: true,
           });
         }
         let addData = {};
         this.$attrs.columns.map(item => {
-          item.field && (addData[item.field] = '');
+          item.field && (addData[item.field] = "");
         });
         this.initAddData = this._.cloneDeep(addData);
         this._resetAddData();
       }
       this.transformProps.data = data;
     },
-    _rowClassName ({ $rowIndex, row }) {
-      let re = '';
-      if (this.isEdit && $rowIndex === this._getEditRowIndex() && !this.hideAddRow) {
-        re += 'is-add ';
+    _rowClassName({ $rowIndex, row }) {
+      let re = "";
+      if (
+        this.isEdit &&
+        $rowIndex === this._getEditRowIndex() &&
+        !this.hideAddRow
+      ) {
+        re += "is-add ";
       }
       if (this.withGroup && !row.ROW_SHOW_SELECTION) {
-        re += 'is-hide ';
+        re += "is-hide ";
       }
       return re;
     },
-    _getCurrentEditIndex () {
+    _getCurrentEditIndex() {
       let editIndex = this.$refs.table
         .getTableColumn()
         .visibleColumn.findIndex(item => !!item.editRender);
       return editIndex === -1 ? 0 : editIndex;
     },
-    _transformColumns () {
+    _addCellClassNmae({ row, column }) {
+      return !row[column.property] ? "is-empty" : "";
+    },
+    _transformColumns() {
       let columns = this._getBaseColumns(false);
       let visibleColumns = this.$refs.table.getTableColumn().visibleColumn;
-      let expandColumn = columns.find(item => item.type === 'expand');
+      let expandColumn = columns.find(item => item.type === "expand");
       if (expandColumn && this.isExpand) {
         expandColumn.visible = !!columns.find(
           item => item.showInExpand && !item.visible
@@ -294,7 +305,7 @@ export default {
           default: arg => {
             let { row, $rowIndex, columnIndex } = arg;
             let className = {
-              class: currentEditIndex !== 0 ? 'is-not-padding' : ''
+              class: currentEditIndex !== 0 ? "is-not-padding" : "",
             };
             if ($rowIndex === this._getEditRowIndex()) {
               return [
@@ -306,29 +317,30 @@ export default {
                     data={this.addTableData}
                     show-header={false}
                     edit-config={{
-                      mode: 'row',
-                      trigger: 'click'
+                      mode: "row",
+                      trigger: "click",
                     }}
-                    edit-rules={this.$attrs['edit-rules'] || {}}
+                    edit-rules={this.$attrs["edit-rules"] || {}}
                     on-edit-actived={this._onEditActive}
+                    cell-class-name={this._addCellClassNmae}
                     {...className}
                   ></vxe-grid>
-                </div>
+                </div>,
               ];
             }
             return defaultSlot
               ? defaultSlot(arg)
               : row[columns[columnIndex].field];
-          }
+          },
         };
       }
       this.transformProps.columns = columns;
       // this.refreshColumn();
     },
-    _transformAddTableColumns () {
+    _transformAddTableColumns() {
       this.addTableColumns = this._getBaseColumns(true);
     },
-    _onCheckboxChange (arg, e) {
+    _onCheckboxChange(arg, e) {
       let { row, checked } = arg;
       if (row) {
         let groups = this.getFullData().filter(
@@ -336,44 +348,45 @@ export default {
         );
         this.$refs.table.setCheckboxRow(groups, checked);
       } else {
-        this.$emit('checkbox-change', arg);
+        this.$emit("checkbox-change", arg);
       }
     },
-    _getBaseColumns (isAdd) {
+    _getBaseColumns(isAdd) {
       let { columns } = this._.cloneDeep(this.$attrs);
-      let haveExpand = !!columns.find(item => item.type === 'expand');
+      let haveExpand = !!columns.find(item => item.type === "expand");
       let expandData = [];
       if (this.isEdit && !this.hideToolColumn) {
         let slots = !isAdd
           ? {
-            slots: {
-              default: ({ row, $rowIndex }) => {
-                return $rowIndex === this._getEditRowIndex() && !this.hideAddRow
-                  ? [
-                    <i
-                      class="iconfont icon-add"
-                      onClick={() => this._addHandle(row)}
-                    ></i>
-                  ]
-                  : [
-                    <i
-                      v-show={this._showDeleteMethod(row)}
-                      class="iconfont icon-del"
-                      onClick={() => this._deleteHandle(row)}
-                    ></i>
-                  ];
-              }
+              slots: {
+                default: ({ row, $rowIndex }) => {
+                  return $rowIndex === this._getEditRowIndex() &&
+                    !this.hideAddRow
+                    ? [
+                        <i
+                          class="iconfont icon-add"
+                          onClick={() => this._addHandle(row)}
+                        ></i>,
+                      ]
+                    : [
+                        <i
+                          v-show={this._showDeleteMethod(row)}
+                          class="iconfont icon-del"
+                          onClick={() => this._deleteHandle(row)}
+                        ></i>,
+                      ];
+                },
+              },
             }
-          }
           : {};
         columns.push({
-          field: '',
-          title: '',
-          align: 'left',
-          fixed: this.isExpand ? null : !isAdd ? 'right' : null,
+          field: "",
+          title: "",
+          align: "left",
+          fixed: this.isExpand ? null : !isAdd ? "right" : null,
           minWidth: 48,
-          className: 'is-tool-cell',
-          ...slots
+          className: "is-tool-cell",
+          ...slots,
         });
       }
       // 所有宽度都固定的话，尾部添加一列
@@ -391,42 +404,42 @@ export default {
         isAdd && delete column.formatter;
         column.formatter = arg => {
           let { cellValue } = arg;
-          let v = '';
-          let text = '';
+          let v = "";
+          let text = "";
           if (column.editRender && EDIT_DEFAULT_TEXT[column.editRender.name]) {
             text = EDIT_DEFAULT_TEXT[column.editRender.name];
           }
           if (
             column.editRender &&
-            column.editRender.name === 'ElSelect' &&
+            column.editRender.name === "ElSelect" &&
             column.editRender.options
           ) {
             let optionProps = column.editRender.optionProps;
             let keyName =
-              optionProps && optionProps.value ? optionProps.value : 'key';
+              optionProps && optionProps.value ? optionProps.value : "key";
             let valueName =
-              optionProps && optionProps.label ? optionProps.label : 'value';
+              optionProps && optionProps.label ? optionProps.label : "value";
             let r = column.editRender.options.find(
               item => item[keyName] === cellValue
             );
-            v = r ? r[valueName] : '';
+            v = r ? r[valueName] : "";
           }
-          let v2 = initFormatter ? initFormatter(arg) : '';
-          v2 = v2 === 0 ? '0' : v2;
-          cellValue = cellValue === 0 ? '0' : cellValue;
-          return v2 || v || cellValue || (isAdd ? text : '');
+          let v2 = initFormatter ? initFormatter(arg) : "";
+          v2 = v2 === 0 ? "0" : v2;
+          cellValue = cellValue === 0 ? "0" : cellValue;
+          return v2 || v || cellValue || (isAdd ? text : "");
         };
         if (
           column.editRender &&
-          column.editRender.name === 'ElSelect' &&
+          column.editRender.name === "ElSelect" &&
           column.editRender.props &&
           column.editRender.props.filterable
         ) {
           column.editRender.attrs = {
-            class: 'el-select fix-pad'
+            class: "el-select fix-pad",
           };
         }
-        if (column.type === 'expand') {
+        if (column.type === "expand") {
           this.isExpand &&
             (column.slots = {
               content: arg => {
@@ -440,17 +453,21 @@ export default {
                       value: item.formatter({ ...arg, cellValue: v }),
                       field: item.field,
                       column: item,
-                      row: row
+                      row: row,
                     };
                   });
                 return this.renderExpand(expandDataForRender, arg);
-              }
+              },
             });
         }
       });
       if (isAdd) {
-        columns.forEach(column => (column.type = null));
+        columns.forEach(column => {
+          column.type = null;
+          column.width && (column.width = column.width - 1);
+        });
         columns.splice(0, this.editIndex);
+        columns.pop();
       } else {
         columns.forEach(column => {
           if (column.onlyAdd && column.editRender) {
@@ -460,21 +477,22 @@ export default {
       }
       return columns;
     },
-    _transformEditConfig () {
+    _transformEditConfig() {
       if (this.isEdit) {
-        this.defaultProps['edit-config'] = {
+        this.defaultProps["edit-config"] = {
           showIcon: false,
-          mode: 'row',
+          mode: "row",
           // trigger: 'dblclick',
-          trigger: this.IS_IPAD ? 'click' : 'dblclick',
-          activeMethod: ({ $rowIndex }) => $rowIndex !== this._getEditRowIndex()
+          trigger: this.IS_IPAD ? "click" : "dblclick",
+          activeMethod: ({ $rowIndex }) =>
+            $rowIndex !== this._getEditRowIndex(),
         };
-        this.defaultProps['seq-config'] = {
-          startIndex: this.isEditBottom ? 0 : -1
+        this.defaultProps["seq-config"] = {
+          startIndex: this.isEditBottom ? 0 : -1,
         };
       }
     },
-    _addHandle () {
+    _addHandle() {
       if (this.btnLoading.add) return;
       let addTable = this.$refs.addTable;
       let tableData = this.getFullData(false);
@@ -492,10 +510,12 @@ export default {
           }
           this.$refs.table.insertAt(
             data,
-            !this.isEditBottom ? (tableData[1] || -1) : tableData[tableData.length - 1]
+            !this.isEditBottom
+              ? tableData[1] || -1
+              : tableData[tableData.length - 1]
           );
           this.$emit(
-            'add-row',
+            "add-row",
             data,
             !this.isEditBottom ? 0 : tableData.length - 1
           );
@@ -503,17 +523,21 @@ export default {
         }
       });
     },
-    _resetAddData () {
+    _resetAddData() {
       this.addTableData = [this._.cloneDeep(this.initAddData)];
     },
-    addRow (row) {
+    addRow(row) {
       let tableData = this.getFullData(false);
       this.$refs.table.insertAt(
         row,
-        !this.isEditBottom ? (tableData[1] || -1) : this.hideAddRow ? -1 : tableData[tableData.length - 1]
+        !this.isEditBottom
+          ? tableData[1] || -1
+          : this.hideAddRow
+          ? -1
+          : tableData[tableData.length - 1]
       );
     },
-    async _deleteHandle (row) {
+    async _deleteHandle(row) {
       if (this.btnLoading.delete) return;
       if (this.$attrs.deleteAsync) {
         this.btnLoading.delete = true;
@@ -522,15 +546,15 @@ export default {
         if (!re) return;
       }
       this.$refs.table.remove([row]);
-      this.$emit('delete-row', row);
+      this.$emit("delete-row", row);
     },
-    getTable () {
+    getTable() {
       return this.$refs.table;
     },
-    getFixTable () {
+    getFixTable() {
       return this.$refs.fixTable;
     },
-    getCheckboxRecords (reactive = false) {
+    getCheckboxRecords(reactive = false) {
       let data = this.$refs.table.getCheckboxRecords();
       let records = reactive ? data : this._.cloneDeep(data);
       return records
@@ -540,16 +564,16 @@ export default {
           return item;
         });
     },
-    _getScrollPerfect () {
+    _getScrollPerfect() {
       const container = this.$refs.table.$el.getElementsByClassName(
-        'vxe-table--body-wrapper'
+        "vxe-table--body-wrapper"
       )[0];
       this.mainScroll = new PerfectScrollbar(container);
       setTimeout(() => {
         this.mainScroll && this.mainScroll.update();
       }, 0);
     },
-    updateScroll (needReget) {
+    updateScroll(needReget) {
       setTimeout(() => {
         this.$nextTick(() => {
           this.mainScroll && this.mainScroll.update();
@@ -560,7 +584,7 @@ export default {
         });
       }, 0);
     },
-    refreshColumn () {
+    refreshColumn() {
       setTimeout(() => {
         this.$nextTick(() => {
           this.$refs.table && this.$refs.table.refreshColumn();
@@ -568,31 +592,31 @@ export default {
         });
       }, 0);
     },
-    setOptions (field, options) {
+    setOptions(field, options) {
       let { columns } = this.transformProps;
       this._setOptionsFunc(columns, field, options);
       this._setOptionsFunc(this.addTableColumns, field, options);
       this.refreshColumn();
     },
-    _setOptionsFunc (columns, field, options) {
+    _setOptionsFunc(columns, field, options) {
       let column = columns.find(item => item.field === field);
       column.editRender.options = options;
     },
-    getOptions (field) {
+    getOptions(field) {
       let { columns } = this.binds;
       let column = columns.find(item => item.field === field);
       return column && column.editRender && column.editRender.options
         ? column.editRender.options
         : [];
     },
-    getFullData (filterAdd = true) {
+    getFullData(filterAdd = true) {
       let d = this.$refs.table.getTableData().fullData;
       return filterAdd ? d.filter(item => !item.IS_ADD) : d;
     },
-    getRecordset () {
+    getRecordset() {
       return this.$refs.table.getRecordset();
     },
-    loadData (page = 1, showLoading = true) {
+    loadData(page = 1, showLoading = true) {
       showLoading && (this.loading = true);
       this.inloading = true;
       return this.loadMethod(page).finally(() => {
@@ -600,7 +624,7 @@ export default {
         this.inloading = false;
       });
     },
-    setData (params) {
+    setData(params) {
       let { list, more, page = 1 } = params;
       let tableList = [];
       let table = this.$refs.table;
@@ -623,22 +647,22 @@ export default {
       this.hasMore = more || false;
       this.updateScroll();
     },
-    clear () {
+    clear() {
       if (this.isEdit) {
         let table = this.$refs.table;
         table.loadData([
           {
-            IS_ADD: true
-          }
+            IS_ADD: true,
+          },
         ]);
         this._resetAddData();
       }
     },
-    getMore () {
+    getMore() {
       if (this.inloading || !this.hasMore) return;
       this.loadData(this.page + 1, false);
     },
-    fixHeader (show) {
+    fixHeader(show) {
       if (show && !this.showFix) {
         this.setFixInfo();
         this.showFix = true;
@@ -652,26 +676,26 @@ export default {
         this.showFix = false;
       }
     },
-    setFixInfo () {
+    setFixInfo() {
       let content = this.$refs.table.$el;
       this.fixWidth = content.offsetWidth;
     },
-    _onTableScroll ({ isX, scrollLeft }) {
+    _onTableScroll({ isX, scrollLeft }) {
       if (isX && this.$refs.fixTable) {
         this.$refs.fixTable.scrollTo(scrollLeft, 0);
       }
     },
-    _onResize () {
+    _onResize() {
       this.updateScroll();
       this._calcColumns();
     },
-    _calcColumns (loop = false) {
+    _calcColumns(loop = false) {
       let columns = this.$attrs.columns;
       let isChange = false;
       let canCalc = !columns.find(item => item.width === undefined);
       if (canCalc) {
         let visibleColumns = this.$refs.table.getTableColumn().visibleColumn;
-        let visibleColumnsWidth = this._.sumBy(visibleColumns, 'width');
+        let visibleColumnsWidth = this._.sumBy(visibleColumns, "width");
         let expandColumns = columns.filter(
           item => item.showInExpand !== undefined
         );
@@ -707,21 +731,21 @@ export default {
         }
       }
     },
-    _showDeleteMethod (row) {
-      if (this.binds['show-delete-method']) {
-        return this.binds['show-delete-method'](row);
+    _showDeleteMethod(row) {
+      if (this.binds["show-delete-method"]) {
+        return this.binds["show-delete-method"](row);
       } else {
         return true;
       }
     },
-    _onEditActive () {
+    _onEditActive() {
       setTimeout(() => {
         this.$nextTick(() => {
           Helper.fixElSelect();
         });
       }, 0);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -943,6 +967,11 @@ export default {
   .is-tool-cell {
     .vxe-cell {
       visibility: hidden;
+    }
+  }
+  .is-empty {
+    .vxe-cell {
+      color: #999;
     }
   }
   .vxe-body--row > td:nth-last-child(2) {

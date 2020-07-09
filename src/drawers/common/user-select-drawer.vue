@@ -1,12 +1,6 @@
 /* * type=='medical' 时候的判断还没写 */
 <template>
-  <g-drawer
-    :show="show"
-    @update:show="toggle"
-    :width="950"
-    title="选择患者"
-    mode="left"
-  >
+  <g-drawer :visible.sync="show" :width="950" title="选择患者" mode="left">
     <div class="user-select-drawer">
       <div class="top">
         <el-date-picker
@@ -39,16 +33,16 @@
           placeholder="MRN/姓名/电话号码"
           v-model="keyWord"
         ></el-input>
-        <btn-search @click="loadData"></btn-search>
+        <g-button search @click="loadData"></g-button>
       </div>
       <div class="content">
-        <g-table
+        <v-table
           ref="table"
-          :highlightCurrentRow="false"
+          :highlight-current-row="false"
           :columns="tableColumn"
           :loadMethod="getList"
-          @rowClick="onRowClick"
-        ></g-table>
+          @cell-click="onRowClick"
+        ></v-table>
       </div>
     </div>
   </g-drawer>
@@ -61,11 +55,13 @@ import {
   fetchCoreVisitListWithChild,
   fetchCoreVisitDetail,
 } from "../../services";
+import { drawerMixin } from "../../mixin";
 
 let TODAY = fecha.format(new Date(), "YYYY-MM-DD 00:00:00");
 
 export default {
-  props: { show: Boolean, type: String },
+  mixins: [drawerMixin],
+  props: { type: String },
   data() {
     return {
       data: [],
@@ -129,13 +125,6 @@ export default {
       ],
     };
   },
-  watch: {
-    show(flag) {
-      if (flag) {
-        this.loadData();
-      }
-    },
-  },
   async activated() {
     if (this.$route.query.id) {
       let info = await fetchCoreVisitDetail({
@@ -158,6 +147,11 @@ export default {
     },
   },
   methods: {
+    onVisibleChange(flag) {
+      if (flag) {
+        this.loadData();
+      }
+    },
     loadData() {
       return this.$refs.table.loadData();
     },
@@ -223,9 +217,6 @@ export default {
       }
       this.$emit("select", row);
       this.toggle(false);
-    },
-    toggle(flag) {
-      this.$emit("update:show", flag);
     },
   },
 };

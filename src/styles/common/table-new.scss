@@ -147,7 +147,15 @@ body{
     }
     .vxe-table .vxe-table--fixed-left-wrapper.scrolling--middle{
       box-shadow: 2px 2px 6px rgba(0,0,0,.12);
-    } 
+    }
+    .el-input__icon{
+      &.el-icon-date, &.el-icon-time{
+        line-height: 30px;
+      }
+    }
+    .el-date-editor .el-input__suffix{
+      top: -4px;
+    }
   }
   .vxe-table--tooltip-wrapper{
     z-index: 3000!important;

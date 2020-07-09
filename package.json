@@ -9,7 +9,7 @@
     "start:demo": "vue-cli-service serve --mode dev",
     "start:pre": "vue-cli-service serve --mode pre",
     "start:pro": "vue-cli-service serve --mode pro",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --target lib --name test-plugin-1 build/build-test.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "koa-router": "^7.4.0",
     "lodash": "^4.17.15",
     "perfect-scrollbar": "^1.4.0",
+    "print-js": "^1.0.63",
     "url-search-params": "^1.1.0",
     "v-viewer": "^1.5.1",
     "vue": "^2.6.10",

@@ -1,18 +1,70 @@
-.layout-login{
+.layout-login {
   height: 100%;
   width: 100%;
-  background-image: url('https://prgrm-res.oss-cn-hangzhou.aliyuncs.com/images/salus/bg.jpeg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
+  background: #fff;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  ._box{
-    width:450px;
-    height:360px;
+  &.login_eitVx3UHnq483cFNEyH0Xw{
+    background-color: #f1f8f6;
+    ._image-box{
+      background-image: url("https://prgrm-res.oss-cn-hangzhou.aliyuncs.com/images/shenlan/bg-shenlan.png");
+    }
+    ._login-box {
+      background-color: #f1f8f6;
+    }
+  }
+  @media screen and (max-width: 1000px) {
+    ._image-box {
+      display: none;
+    }
+    ._login-box {
+      ._box{
+        z-index: inherit;
+        box-shadow: 0 0 0 15px rgba(0, 0, 0, 0.06);
+      }
+      &::before {
+        content: "";
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        bottom: -20px;
+        left: -20px;
+        background-image: url("../../assets/bg.jpeg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100% 100%;
+        filter: blur(10px);
+      }
+    }
+  }
+  ._image-box {
+    background-image: url("https://prgrm-res.oss-cn-hangzhou.aliyuncs.com/images/salus/bg-salus.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+    height: 100%;
+    flex: 1;
+  }
+  ._login-box {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 99;
+    background-color: #f8fcfe;
+  }
+  ._box {
+    width: 450px;
+    height: 360px;
     box-sizing: border-box;
     background: #fff;
+    position: relative;
+    z-index: 99;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -20,18 +72,17 @@
     padding: 0;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 0 15px rgba(0,0,0,0.1);
-    ._title{
-      font-size: 20px;
+    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.03);
+    ._title {
+      font-size: 18px;
       background: #f9f9f9;
       width: 100%;
       height: 50px;
       line-height: 50px;
       text-align: center;
-      font-weight: 700;
-      color: #099CD3;
+      color: #099cd3;
     }
-    ._form{
+    ._form {
       width: 360px;
       flex: 1;
       min-height: 0;
@@ -39,18 +90,18 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      .el-form{
+      .el-form {
         width: 100%;
       }
-      .el-input__inner{
+      .el-input__inner {
         height: 42px;
         line-height: 42px;
       }
-      .el-button{
+      .el-button {
         width: 100%;
         height: 42px;
         line-height: 42px;
-        >span{
+        > span {
           display: inline-block;
           text-align: center;
           font-size: 16px;

@@ -7,6 +7,7 @@
     :size="`${width}px`"
     class="g-drawer rtl"
   >
+    <input type="text" style="position: fixed; top: 200%;" />
     <div class="el-drawer_custom-header">
       <div class="_close" @click="show = false">
         <i class="el-icon-close"></i>
@@ -24,7 +25,7 @@
 
 <script>
 export default {
-  name: 'GDrawer',
+  name: "GDrawer",
   props: {
     visible: {
       type: Boolean,
@@ -32,7 +33,7 @@ export default {
     },
     title: {
       type: String,
-      default: '弹窗标题',
+      default: "弹窗标题",
     },
     width: {
       type: Number,
@@ -40,27 +41,27 @@ export default {
     },
     contentClass: {
       type: String,
-      default: '',
+      default: "",
     },
   },
-  data () {
+  data() {
     return {
       show: this.visible,
     };
   },
   watch: {
-    show (v) {
-      this.$emit('update:visible', v);
+    show(v) {
+      this.$emit("update:visible", v);
     },
-    visible (v) {
+    visible(v) {
       this.show = v;
     },
   },
   methods: {
-    refreshScroll () {
+    refreshScroll() {
       this.$refs.scroll.refresh();
-    }
-  }
+    },
+  },
 };
 </script>
 

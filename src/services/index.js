@@ -14,6 +14,7 @@ export const fetchImageCode = fetchCreate(API.IMAGE_CODE, {});
 export const fetchAuthToken = fetchCreate(API.AUTH_OAUTH_TOKEN, {
   customToken: process.env.VUE_APP_LOGIN_TOKEN,
 });
+export const fetchBoDic = fetchCreate(API.BO_DIC_LIST_BY_CODE, postParams);
 export const fetchAuthInfo = fetchCreate(API.AUTH_OAUTH_CHECK_TOKEN, {});
 export const fetchAccountMenu = fetchCreate(API.ACCOUNT_MENU, {});
 export const fetchOssAccount = fetchCreate(API.OSS_ACCOUNT, postParams);

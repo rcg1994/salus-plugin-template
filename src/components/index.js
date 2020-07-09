@@ -6,6 +6,9 @@ import GImageUpload from "./g-image-upload";
 import GScroll from "./g-scroll";
 import GDrawer from "./g-drawer";
 import GToggle from "./g-toggle";
+import GPluginBox from "./g-plugin-box";
+import SafeButton from "./safe-button";
+import GButton from "./g-button";
 import VTable from "./table/VTable.vue";
 import RouterTab from "./vue-router-tab/src/index.js";
 
@@ -25,3 +28,6 @@ Vue.component(GScroll.name, GScroll);
 Vue.component(GDrawer.name, GDrawer);
 Vue.component(GToggle.name, GToggle);
 Vue.component(VTable.name, VTable);
+Vue.component(GPluginBox.name, GPluginBox);
+Vue.component(SafeButton.name, SafeButton);
+Vue.component(GButton.name, GButton);

@@ -10,6 +10,7 @@ export default class API {
   static AUTH_OAUTH_CHECK_TOKEN = PREFIX + "/auth/oauth/check_token";
   static ACCOUNT_MENU = PREFIX + "/bo/account/menu_tree";
   static OSS_ACCOUNT = PREFIX + "/bo/upload/account";
+  static BO_DIC_LIST_BY_CODE = PREFIX + '/bo/dictionary/list_by_code';
   static PLUGIN_HOS_PLUGIN_LIST = PREFIX + "/core/plugin/rel/list";
   static CORE_VISIT_LIST = PREFIX + "/core/visit/todayDoctorList";
   static CORE_VISIT_LIST_WITH_CHILD =
