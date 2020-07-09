@@ -7,8 +7,9 @@ import LoginLayout from "../layouts/login.vue";
 import Helper from "../libs/helper";
 import OSSHelper from "../libs/ossHelper";
 import Store from "../store";
-import { fetchAuthInfo } from "../services";
+import { fetchAuthInfo, unsafe_fetchBoLoginToken } from "../services";
 import PluginHelper from '../libs/pluginHelper';
+import { isFormData } from "xe-utils/methods";
 
 let MAIN_FUNC_DONE = false;
 
@@ -71,10 +72,17 @@ router.beforeEach(async (to, from, next) => {
             name: d.accountName,
             phone: d.phoneNumber,
           });
-          console.log("system info", d.hospitalId);
+          console.log("system info", d);
           await PluginHelper.init(d.hospitalId);
         }
       });
+      await unsafe_fetchBoLoginToken({
+        token
+      }).then(async d=>{
+        if(d!=='fail'){
+          await Store.dispatch("system/updateRoleList", d.relAccountDepList);
+        }
+      })
     }
     next();
   }

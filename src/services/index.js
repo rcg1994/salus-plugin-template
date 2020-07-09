@@ -11,6 +11,10 @@ export const fetchApiFake = fetchCreate(API.API_FAKE, {
   IS_FAKE: true,
 });
 export const fetchImageCode = fetchCreate(API.IMAGE_CODE, {});
+export const unsafe_fetchBoLoginToken = fetchCreate(
+  API.UNSAFE_BO_LOGIN_TOKEN,
+  postParams
+);
 export const fetchAuthToken = fetchCreate(API.AUTH_OAUTH_TOKEN, {
   customToken: process.env.VUE_APP_LOGIN_TOKEN,
 });

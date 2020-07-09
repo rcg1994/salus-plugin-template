@@ -14,6 +14,7 @@ export function request(api, options = {}) {
   const method = options.method ? options.method.toLowerCase() : "get";
   const formData = options.formData !== undefined ? options.formData : false;
   const isIdOnly = options.isIdOnly !== undefined ? options.isIdOnly : false;
+  const isEmr = options.isEmr !== undefined ? options.isEmr : false;
   const isDataInside =
     options.isDataInside !== undefined ? options.isDataInside : false;
   const IS_FAKE = options.IS_FAKE !== undefined ? options.IS_FAKE : false;
@@ -82,18 +83,20 @@ export function request(api, options = {}) {
     })
     .then(res => res.json())
     .then(res => {
-      if (res.code && Number(res.code) !== 0) {
+      let codeKey = isEmr ? "status" : "code";
+      let code = res[codeKey];
+      if (code && Number(code) !== 0) {
         // eslint-disable-next-line no-throw-literal
         throw {
-          code: res.code,
+          code,
           msg: res.message,
         };
       }
       if (res.data) {
-        if (Number(res.code) !== 0) {
+        if (Number(code) !== 0) {
           // eslint-disable-next-line no-throw-literal
           throw {
-            code: res.code,
+            code,
             msg: res.message,
           };
         } else {
@@ -130,6 +133,7 @@ export function fetchCreate(
     isFile = false,
     isIdOnly = false,
     isDataInside = false,
+    isEmr = false,
     IS_FAKE = false,
     customToken = "",
     extData = {},
@@ -150,6 +154,7 @@ export function fetchCreate(
       isFile,
       isIdOnly,
       isDataInside,
+      isEmr,
       IS_FAKE,
       customToken,
       preprocess,

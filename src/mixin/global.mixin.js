@@ -14,6 +14,7 @@ const mixin = {
       global_account: "system/account",
       global_hospital: "system/hospital",
       global_role: "system/role",
+      global_department: "system/department",
     }),
   },
   mounted() {

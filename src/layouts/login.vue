@@ -43,7 +43,11 @@
 import Helper from "../libs/helper";
 import Config from "../libs/config";
 import API from "../services/api";
-import { fetchAuthToken, fetchAccountMenu } from "../services";
+import {
+  fetchAuthToken,
+  fetchAccountMenu,
+  unsafe_fetchBoLoginToken,
+} from "../services";
 export default {
   data() {
     return {
@@ -112,15 +116,32 @@ export default {
         }
       });
     },
-    getPages() {
-      return fetchAccountMenu({
-        sysId: Config.systemId,
+    getPages(token) {
+      return unsafe_fetchBoLoginToken({
+        token: token,
       }).then(d => {
         if (d !== "fail") {
-          if (!d[0] || !d[0].children || !d[0].children[0]) {
-            return false;
-          }
-          return d[0].children[0].path;
+          let roles = d.relAccountDepList;
+          let roleId = "";
+          let tempDefaultRoleId = localStorage.getItem("SALUS_DEFUALT_ROLE");
+          let defaultRole = roles.find(item => Number(item.isDefault) === 1);
+          roleId = roles.find(item => item.tRoleId === tempDefaultRoleId)
+            ? tempDefaultRoleId
+            : "";
+          roleId = roleId === "" && defaultRole ? defaultRole.tRoleId : roleId;
+          roleId && localStorage.setItem("SALUS_DEFUALT_ROLE", roleId);
+          return fetchAccountMenu({
+            sysId: Config.systemId,
+            roleIds: roleId || "",
+          }).then(d => {
+            if (d !== "fail") {
+              if (!d[0] || !d[0].children || !d[0].children[0]) {
+                return false;
+              }
+              let path = d[0].children[0].path;
+              return path.indexOf("thirdParty") > -1 ? "/home" : path;
+            }
+          });
         }
       });
     },

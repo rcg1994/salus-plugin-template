@@ -20,6 +20,9 @@
           </div>
           <div class="g-user-info__tool">
             <div>
+              <el-button type="text" @click.stop="handleDropDown('role')"
+                >切换科室</el-button
+              >
               <el-button type="text" @click.stop="handleDropDown('logout')"
                 >登出</el-button
               >
@@ -28,14 +31,21 @@
         </div>
       </div>
     </transition>
+    <staff-change-role-drawer
+      :visible.sync="visible.staffChangeRoleDrawer"
+    ></staff-change-role-drawer>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Helper from "../../libs/helper";
+import StaffChangeRoleDrawer from "../../drawers/common/staff-change-role";
 
 export default {
+  components: {
+    StaffChangeRoleDrawer,
+  },
   data() {
     return {
       showDropDown: false,

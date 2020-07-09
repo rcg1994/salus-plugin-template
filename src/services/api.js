@@ -7,6 +7,7 @@ export default class API {
   static API_FAKE = PREFIX + "/api/fake";
   static IMAGE_CODE = PREFIX + "/image_code";
   static AUTH_OAUTH_TOKEN = PREFIX + "/auth/oauth/token";
+  static UNSAFE_BO_LOGIN_TOKEN = PREFIX + '/bo/login/token';
   static AUTH_OAUTH_CHECK_TOKEN = PREFIX + "/auth/oauth/check_token";
   static ACCOUNT_MENU = PREFIX + "/bo/account/menu_tree";
   static OSS_ACCOUNT = PREFIX + "/bo/upload/account";
