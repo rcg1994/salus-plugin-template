@@ -5,7 +5,7 @@ import router from "../router";
 
 const showErrMessage = msg => {
   Vue.prototype.$notify.error({
-    title: "异常错误",
+    title: "提示",
     message: msg,
   });
 };
@@ -85,11 +85,12 @@ export function request(api, options = {}) {
     .then(res => {
       let codeKey = isEmr ? "status" : "code";
       let code = res[codeKey];
+      let msg = res.message || res.msg;
       if (code && Number(code) !== 0) {
         // eslint-disable-next-line no-throw-literal
         throw {
           code,
-          msg: res.message,
+          msg,
         };
       }
       if (res.data) {
@@ -97,7 +98,7 @@ export function request(api, options = {}) {
           // eslint-disable-next-line no-throw-literal
           throw {
             code,
-            msg: res.message,
+            msg,
           };
         } else {
           return res.data;
