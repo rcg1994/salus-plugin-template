@@ -31,7 +31,7 @@ const mixin = {
               ...DIC_TEMP,
               ..._dic,
             };
-            console.log("DIC_TEMP", DIC_TEMP);
+            this.onDicLoaded && this.onDicLoaded();
           }
         });
       }

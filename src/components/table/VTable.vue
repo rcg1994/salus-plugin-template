@@ -39,6 +39,7 @@
 
 <script>
 import PerfectScrollbar from "perfect-scrollbar";
+import { throttle } from "lodash";
 import Helper from "../../libs/helper";
 const EDIT_DEFAULT_TEXT = {
   ElInput: "点击输入",
@@ -68,6 +69,10 @@ export default {
     fixPadding: {
       type: Number,
       default: 0,
+    },
+    throttleWait: {
+      type: Number,
+      default: 2000,
     },
     renderExpand: {
       type: Function,
@@ -111,10 +116,15 @@ export default {
       fixWidth: 0,
       showFix: false,
       tableBody: null,
+      canDelete: true,
       btnLoading: {
         add: false,
         delete: false,
       },
+      saveThrottle: throttle(this._onAutoSave, this.throttleWait, {
+        leading: true,
+        trailing: true,
+      }),
     };
   },
   computed: {
@@ -129,6 +139,9 @@ export default {
     },
     isExpand() {
       return this._checkProp("is-expand") || false;
+    },
+    isAutoAdd() {
+      return this._checkProp("auto-add") || false;
     },
     isEditBottom() {
       return this._checkProp("is-edit-bottom") || false;
@@ -365,7 +378,7 @@ export default {
                     ? [
                         <i
                           class="iconfont icon-add"
-                          onClick={() => this._addHandle(row)}
+                          onClick={() => this._addHandle()}
                         ></i>,
                       ]
                     : [
@@ -475,7 +488,33 @@ export default {
           }
         });
       }
+      columns.forEach(column => {
+        if (column.editRender) {
+          column.editRender.events = column.editRender.events || {};
+          let changHandle = column.editRender.events.change || (() => {});
+          column.editRender.events.change = (...arg) => {
+            changHandle(...arg);
+            isAdd && this._onAddRowChange(...arg);
+            !isAdd && this.saveThrottle();
+          };
+        }
+      });
       return columns;
+    },
+    _onAddRowChange({ row }) {
+      this.isAutoAdd &&
+        this.$refs.table.validate(row, err => {
+          if (!err) {
+            this._addHandle(row);
+            this.canDelete = false;
+            setTimeout(() => {
+              this.canDelete = true;
+            }, 300);
+          }
+        });
+    },
+    _onAutoSave() {
+      this.$emit("save");
     },
     _transformEditConfig() {
       if (this.isEdit) {
@@ -520,6 +559,7 @@ export default {
             !this.isEditBottom ? 0 : tableData.length - 1
           );
           this._resetAddData();
+          this.saveThrottle();
         }
       });
     },
@@ -538,7 +578,7 @@ export default {
       );
     },
     async _deleteHandle(row) {
-      if (this.btnLoading.delete) return;
+      if (this.btnLoading.delete || !this.canDelete) return;
       if (this.$attrs.deleteAsync) {
         this.btnLoading.delete = true;
         let re = await this.$attrs.deleteAsync(row);
@@ -547,6 +587,7 @@ export default {
       }
       this.$refs.table.remove([row]);
       this.$emit("delete-row", row);
+      this.saveThrottle();
     },
     getTable() {
       return this.$refs.table;

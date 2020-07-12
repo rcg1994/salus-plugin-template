@@ -17,9 +17,7 @@ export function request(api, options = {}) {
   const isEmr = options.isEmr !== undefined ? options.isEmr : false;
   const isDataInside =
     options.isDataInside !== undefined ? options.isDataInside : false;
-  const IS_FAKE = options.IS_FAKE !== undefined ? options.IS_FAKE : false;
   const customToken = options.customToken || "";
-  if (IS_FAKE) return Helper.sleep(500).then(() => ({ success: true }));
   options.data = options.data || {};
   if (method === "get" && !isIdOnly) {
     const searchParams = makeURLSearchParams(options.data);
@@ -36,11 +34,11 @@ export function request(api, options = {}) {
           Accept: "application/json",
           "Content-Type": "application/json;charset=UTF-8",
         },
+    // needToken ? { authorization: 'Barear ' + accessToken } : {},
     options.headers ? options.headers : {}
   );
   const isFile = options.isFile || false;
-  if (isIdOnly && (options.data.id || options.data.id === 0))
-    api += `/${options.data.id}`;
+  if (isIdOnly && options.data.id) api += `/${options.data.id}`;
   const data = isDataInside ? options.data.data : options.data;
   if (isFile) {
     return fetch(api, {
@@ -84,9 +82,9 @@ export function request(api, options = {}) {
     .then(res => res.json())
     .then(res => {
       let codeKey = isEmr ? "status" : "code";
-      let code = res[codeKey];
+      let code = Number(res[codeKey]);
       let msg = res.message || res.msg;
-      if (code && Number(code) !== 0) {
+      if (code) {
         // eslint-disable-next-line no-throw-literal
         throw {
           code,
@@ -94,7 +92,7 @@ export function request(api, options = {}) {
         };
       }
       if (res.data) {
-        if (Number(code) !== 0) {
+        if (code) {
           // eslint-disable-next-line no-throw-literal
           throw {
             code,
@@ -111,15 +109,14 @@ export function request(api, options = {}) {
       console.error("errr", options, err);
       if (err.msg) {
         if (err.code === 401) {
+          Helper.setToken("");
           router.push("/login");
-          return { success: true };
+          return "fail";
         }
         // 接口错误都会有msg的
         throw err;
       } else {
-        throw {
-          msg: "系统异常",
-        };
+        return { success: true };
       }
     });
 }
@@ -131,11 +128,11 @@ export function fetchCreate(
     delay = 0,
     requireSign = false,
     formData = false,
+    useHosGroup = false,
     isFile = false,
     isIdOnly = false,
     isDataInside = false,
     isEmr = false,
-    IS_FAKE = false,
     customToken = "",
     extData = {},
     headers = {},
@@ -151,12 +148,12 @@ export function fetchCreate(
       data: formData ? data : Object.assign(data, extData),
       headers,
       requireSign,
+      useHosGroup,
       formData,
       isFile,
       isIdOnly,
       isDataInside,
       isEmr,
-      IS_FAKE,
       customToken,
       preprocess,
     })

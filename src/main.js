@@ -37,12 +37,12 @@ Vue.use(Salus);
 Vue.prototype._ = _;
 
 Vue.mixin(globalMixin);
-Vue.prototype.$next = function(func) {
+Vue.prototype.$next = function(func, timeout = 0) {
   setTimeout(() => {
     this.$nextTick(() => {
       func && func();
     });
-  }, 0);
+  }, timeout);
 };
 
 new Vue({

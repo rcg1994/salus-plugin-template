@@ -1,32 +1,52 @@
 <template>
-  <div class="g-toggle" :class="{'is-open': show}">
-    <slot v-if="show"></slot>
+  <div
+    class="g-toggle"
+    :class="{ 'is-open': show, 'is-transparent': transparent }"
+  >
+    <div v-show="show">
+      <slot></slot>
+    </div>
     <div class="_btn" @click="show = !show">
-      {{!show ? '展开':'收起'}}
-      <i :class="!show ?'el-icon-caret-bottom': 'el-icon-caret-top'"></i>
+      {{ !show ? "展开" : "收起" }}
+      <i :class="!show ? 'el-icon-caret-bottom' : 'el-icon-caret-top'"></i>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'GToggle',
-  data () {
+  name: "GToggle",
+  props: {
+    transparent: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
     return {
-      show: false
+      show: false,
     };
   },
   watch: {
-    show (v) {
-      this.$emit('toggle', v);
-    }
-  }
+    show(v) {
+      this.$emit("toggle", v);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-.g-toggle{
-  ._btn{
+.g-toggle {
+  &.is-transparent {
+    ._btn {
+      background: transparent;
+      color: #099cd3;
+      &:hover {
+        background: #fafafa;
+      }
+    }
+  }
+  ._btn {
     width: 100%;
     height: 30px;
     line-height: 30px;
@@ -35,7 +55,7 @@ export default {
     background: #f5f5f5;
     font-size: 12px;
     cursor: pointer;
-    &:hover{
+    &:hover {
       background: #f1f1f1;
     }
   }
